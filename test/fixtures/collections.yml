@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  boardgame_id: 
+  user_id: 1
+  status: MyString
+
+two:
+  boardgame_id: 
+  user_id: 1
+  status: MyString

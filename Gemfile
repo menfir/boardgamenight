@@ -45,6 +45,8 @@ group :development do
   gem 'spring'
 end
 
+gem 'therubyracer'
+
 gem 'devise', '~> 3.4.0'
 
 gem 'httparty'

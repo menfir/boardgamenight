@@ -1,22 +1,42 @@
 require 'bgg_search'
 class BoardgamesController < ApplicationController
-  before_action :set_boardgame, only: [:show, :edit, :update, :destroy]
+  before_action :set_boardgame, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
-  
+
   # GET /boardgames
   # GET /boardgames.json
   def index
     @boardgames = current_user.boardgames
     if params[:search]
-      @bgg = BggSearch.new()
-      @bgg.search(params[:search])
       @boardgames = current_user.boardgames.search(params[:search])
+      @bgg = BggSearch.new()
+      response = @bgg.search(params[:search])
+      response.parsed_response["items"]["item"].each do |item|
+        boardgame = Boardgame.new()
+        boardgame.id = item["id"]
+        boardgame.name = item["name"]["value"]
+        unless @boardgames.any? {|bg| bg.id == boardgame.id }
+          @boardgames << boardgame
+        end
+      end
     end
   end
 
   # GET /boardgames/1
   # GET /boardgames/1.json
   def show
+    if Boardgame.exists?(params[:id])
+      @boardgame = Boardgame.find(params[:id])
+    else
+      @boardgame = Boardgame.new
+      @bgg = BggSearch.new()
+      resp = @bgg.get_boardgame(params[:id])
+      @boardgame.id = params[:id]
+      @boardgame.name = resp["items"]["item"]["name"][0]["value"]
+      @boardgame.img = resp["items"]["item"]["image"]
+      @boardgame. description = resp["items"]["item"]["description"]
+      @boardgame.save!
+    end
   end
 
   # GET /boardgames/new
@@ -58,10 +78,10 @@ class BoardgamesController < ApplicationController
       end
     end
   end
-  
+
   #search bgg
   def search
-    
+
   end
 
   # DELETE /boardgames/1

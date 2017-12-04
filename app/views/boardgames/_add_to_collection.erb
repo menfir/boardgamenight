@@ -1,0 +1,4 @@
+<%= form_for(current_user.collections.build(boardgame_id: @boardgame.id), remote: true) do |f| %>
+  <div><%= f.hidden_field :boardgame_id %></div>
+  <%= f.submit "Add to collection", class: "btn btn-large btn-primary" %>
+<% end %>

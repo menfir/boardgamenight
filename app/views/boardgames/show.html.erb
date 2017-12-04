@@ -1,19 +1,31 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @boardgame.name %>
-</p>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <%= image_tag @boardgame.img, :width => "400", :class => "img-fluid", :id => "boardgame_image" %>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <div>
+        <%=@boardgame.name %>
+      </div>
+      <div>
+            <%= @boardgame.description %>
+      </div>
+    </div>
+  </div>
 
-<p>
-  <strong>Img:</strong>
-  <%= @boardgame.img %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @boardgame.description %>
-</p>
-
-<%= link_to 'Edit', edit_boardgame_path(@boardgame) %> |
-<%= link_to 'Back', boardgames_path %>
+  <div class="row-fluid">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <div id="collection_form">
+        <% if current_user.in_collection?(@boardgame) %>
+          <%= render 'remove_from_collection' %>
+        <% else %>
+          <%= render 'add_to_collection' %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <%= link_to 'Back', boardgames_path %>
+    </div>
+  </div>
+</div>
